@@ -23,9 +23,7 @@ class MinHeap
     # by placing it at the end of the array
     @store.push(HeapNode.new(key, value))
 
-    if @store.length > 1
-      heap_up(@store.length - 1)
-    end
+    heap_up(@store.length - 1) if @store.length > 1      
   end
 
   # This method removes and returns an element from the heap
@@ -34,6 +32,8 @@ class MinHeap
   # n being number of nodes in the heap
   # Space Complexity: O(1) since not using recursion
   def remove()
+    return if @store.empty?
+    
     # swap last item in heap with smallest value
     swap(0, -1)
 
@@ -93,9 +93,9 @@ class MinHeap
   def heap_down(index=0)
     return if @store.empty?
 
-    while ((2 * index) + 2) < @store.length # so long as we have a left child, continue to swap
-      rightIndex = (2 * index) + 1
-      leftIndex = (2 * index) + 2
+    while ((2 * index) + 1) < @store.length # so long as we have a left child, continue to swap
+      rightIndex = (2 * index) + 2
+      leftIndex = (2 * index) + 1
       smallerIndex = leftIndex
       if (rightIndex < @store.length) && (@store[rightIndex].key < @store[leftIndex].key)
         smallerIndex = rightIndex
@@ -109,6 +109,7 @@ class MinHeap
       index = smallerIndex
     end
   end
+
 
   # If you want a swap method... you're welcome
   def swap(index_1, index_2)
